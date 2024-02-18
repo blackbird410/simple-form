@@ -6,7 +6,7 @@ body {
   justify-content: center;
   align-items: center;
   margin: 0;
-  background: url('./albert.jpg');
+  background: url("./albert.jpg");
   background-size: cover;
   color: white;
   font-family: "Poppins", sans-serif;
@@ -27,7 +27,7 @@ form {
 .field-wrapper {
   display: flex;
   justify-content: space-between;
-  gap: 1rem ;
+  gap: 1rem;
 }
 
 input,
@@ -54,6 +54,5 @@ select {
 
 select:focus,
 input:focus {
-  border: 1px solid #0096FF;
+  border: 1px solid #0096ff;
 }
-
