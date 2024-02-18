@@ -1,4 +1,5 @@
-export const countryDropDown = `<select id="country" name="country" class="form-control">
+export const countryDropDown = `        
+            <select id="country" name="country" class="form-control">
                 <option value="Afghanistan">Afghanistan</option>
                 <option value="Åland Islands">Åland Islands</option>
                 <option value="Albania">Albania</option>
