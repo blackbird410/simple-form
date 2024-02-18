@@ -11,6 +11,18 @@ const pwdFormat =
   "Must contain at least 8 characters with at least 1 uppercase, 1 lowercase and 1 number.";
 const zipCodeFormat = "Must have 5-10 characters and no space";
 
+const displayHighFive = () => {
+  const picture = document.createElement("div");
+  const text = document.createElement("div");
+  const form = document.querySelector("form");
+
+  picture.className = "high-five";
+  text.textContent = "Form submitted successfully!!!";
+  picture.appendChild(text);
+  if (form) form.remove();
+  document.body.appendChild(picture);
+};
+
 const getId = (f) => {
   const parts = f.toLowerCase().split(" ");
   if (parts.length !== 1) return parts.join("-");
@@ -66,7 +78,7 @@ const validateForm = (e) => {
     }
   }
 
-  if (isValid) document.body.querySelector("form").reset();
+  if (isValid) displayHighFive();
   else {
     [email, zipCode, pwd, pwdConfirm].forEach((input) => {
       if (!input.value.length) {
@@ -115,7 +127,7 @@ class Form {
         switch (field) {
           case "Email":
             input.setAttribute("type", "email");
-            input.autocomplete = true;
+            input.setAttribute("autocomplete", "true");
             input.placeholder = "erenjaeger@gmail.com";
             spanError.textContent = "Email incorrect";
             input.addEventListener("input", validateEmail);
@@ -133,7 +145,7 @@ class Form {
             spanError.textContent = "Password incorrect";
             break;
           default:
-            input.autocomplete = true;
+            input.setAttribute("autocomplete", "true");
             input.placeholder = "320317";
             input.addEventListener("input", validateZipCode);
             spanError.textContent = zipCodeFormat;

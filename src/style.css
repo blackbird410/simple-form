@@ -5,11 +5,12 @@
 }
 
 body {
-  height: 100vh;
+  height: calc(100vh - 1rem);
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 0;
+  padding: 1rem;
   background: url("./albert.jpg");
   background-size: cover;
   color: white;
@@ -91,4 +92,25 @@ input.valid {
 
 .error.active {
   display: block;
+}
+
+.high-five {
+  background: url("./raquel-garcia.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1rem;
+}
+
+.high-five > div {
+  background: var(--myBlue);
+  font-size: 1.5rem;
+  width: 100%;
+  text-align: center;
+  padding: 1rem;
 }
