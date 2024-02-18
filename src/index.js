@@ -5,9 +5,11 @@ import { countryDropDown } from "./countryDropDown.js";
 const emailRegExp =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+const globalZipCodeRegex = /^[a-zA-Z0-9-]{5,10}$/;
 
 const pwdFormat =
   "Must contain at least 8 characters with at least 1 uppercase, 1 lowercase and 1 number.";
+const zipCodeFormat = "Must have 5-10 characters and no space";
 
 const getId = (f) => {
   const parts = f.toLowerCase().split(" ");
@@ -21,12 +23,21 @@ const toggleError = (e, isValid) => {
     ? "error"
     : "error active";
 };
+const validateEmail = (e) => {
+  const isValid = emailRegExp.test(e.currentTarget.value);
+  toggleError(e, isValid);
+};
+
+const validateZipCode = (e) => {
+  const code = e.currentTarget.value;
+  const isValid = globalZipCodeRegex.test(code);
+  toggleError(e, isValid);
+};
 
 const validatePassword = (e) => {
   const v = e.currentTarget.value;
   const isValid = passwordRegex.test(v);
   toggleError(e, isValid);
-  e.currentTarget.nextElementSibling.textContent = pwdFormat;
 };
 
 const confirmPwd = (e) => {
@@ -43,7 +54,21 @@ const confirmPwd = (e) => {
 };
 
 const validateForm = (e) => {
-  e.preventDefault;
+  e.preventDefault();
+  const email = document.querySelector("#email");
+  const zipCode = document.querySelector("#zip-code");
+  const pwd = document.querySelector("#password");
+  const pwdConfirm = document.querySelector("#password-confirmation");
+
+  let isValid = true;
+  for (const input of [email, zipCode, pwd, pwdConfirm]) {
+    if (input.classList.contains("valid") && !input.value.length) {
+      isValid = false;
+      break;
+    }
+  }
+
+  if (isValid) document.body.querySelector("form").reset();
 };
 
 class Form {
@@ -71,7 +96,6 @@ class Form {
       fieldWrapper.className = "field-wrapper";
       inputWrapper.className = "input-wrapper";
       spanError.className = "error";
-      spanError.textContent = "This is an error";
       label.setAttribute("for", id);
       label.textContent = field;
 
@@ -87,23 +111,26 @@ class Form {
           case "Email":
             input.setAttribute("type", "email");
             input.autocomplete = true;
-            input.addEventListener("input", (e) => {
-              const isValid = emailRegExp.test(e.currentTarget.value);
-              e.currentTarget.className = isValid ? "valid" : "invalid";
-            });
+            input.placeholder = "erenjaeger@gmail.com";
+            spanError.textContent = "Email incorrect";
+            input.addEventListener("input", validateEmail);
             break;
           case "Password":
             input.addEventListener("input", validatePassword);
             input.setAttribute("type", "password");
             input.setAttribute("placeholder", "Sung1492");
+            spanError.textContent = pwdFormat;
             break;
           case "Password Confirmation":
             input.setAttribute("type", "password");
             input.setAttribute("placeholder", "Sung1492");
             input.addEventListener("input", confirmPwd);
-            spanError.textContent = "Passwords do not match.";
             break;
           default:
+            input.autocomplete = true;
+            input.placeholder = "320317";
+            input.addEventListener("input", validateZipCode);
+            spanError.textContent = zipCodeFormat;
             break;
         }
         inputWrapper.appendChild(input);
