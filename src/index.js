@@ -18,33 +18,31 @@ const getId = (f) => {
 };
 
 const toggleError = (e, isValid) => {
-  e.currentTarget.className = isValid ? "valid" : "invalid";
-  e.currentTarget.nextElementSibling.className = isValid
-    ? "error"
-    : "error active";
+  e.className = isValid ? "valid" : "invalid";
+  e.nextElementSibling.className = isValid ? "error" : "error active";
 };
 const validateEmail = (e) => {
   const isValid = emailRegExp.test(e.currentTarget.value);
-  toggleError(e, isValid);
+  toggleError(e.currentTarget, isValid);
 };
 
 const validateZipCode = (e) => {
   const code = e.currentTarget.value;
   const isValid = globalZipCodeRegex.test(code);
-  toggleError(e, isValid);
+  toggleError(e.currentTarget, isValid);
 };
 
 const validatePassword = (e) => {
   const v = e.currentTarget.value;
   const isValid = passwordRegex.test(v);
-  toggleError(e, isValid);
+  toggleError(e.currentTarget, isValid);
 };
 
 const confirmPwd = (e) => {
   const pwd = document.querySelector("#password").value;
   const isValid =
     e.currentTarget.value === pwd && passwordRegex.test(e.currentTarget.value);
-  toggleError(e, isValid);
+  toggleError(e.currentTarget, isValid);
   if (!isValid)
     e.currentTarget.nextElementSibling.textContent = !passwordRegex.test(
       e.currentTarget.value,
@@ -62,13 +60,20 @@ const validateForm = (e) => {
 
   let isValid = true;
   for (const input of [email, zipCode, pwd, pwdConfirm]) {
-    if (input.classList.contains("valid") && !input.value.length) {
+    if (input.classList.contains("invalid") || input.value.length === 0) {
       isValid = false;
       break;
     }
   }
 
   if (isValid) document.body.querySelector("form").reset();
+  else {
+    [email, zipCode, pwd, pwdConfirm].forEach((input) => {
+      if (!input.value.length) {
+        toggleError(input, false);
+      }
+    });
+  }
 };
 
 class Form {
@@ -125,6 +130,7 @@ class Form {
             input.setAttribute("type", "password");
             input.setAttribute("placeholder", "Sung1492");
             input.addEventListener("input", confirmPwd);
+            spanError.textContent = "Password incorrect";
             break;
           default:
             input.autocomplete = true;
