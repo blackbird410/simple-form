@@ -7,6 +7,10 @@ const getId = (f) => {
   return parts[0];
 };
 
+const validateForm = (e) => {
+  e.preventDefault;
+};
+
 class Form {
   constructor() {
     this.wrapper = document.createElement("form");
@@ -24,17 +28,24 @@ class Form {
 
     fields.forEach((field) => {
       const fieldWrapper = document.createElement("div");
+      const inputWrapper = document.createElement("div");
+      const spanError = document.createElement("span");
+      const label = document.createElement("label");
       const id = getId(field);
+
       fieldWrapper.className = "field-wrapper";
+      inputWrapper.className = "input-wrapper";
+      spanError.className = "error";
+      spanError.textContent = "This is an error";
+      label.setAttribute("for", id);
+      label.textContent = field;
 
       if (field === "Country") {
-        fieldWrapper.innerHTML = countryDropDown;
+        inputWrapper.innerHTML = countryDropDown;
+        inputWrapper.appendChild(spanError);
       } else {
-        const label = document.createElement("label");
         const input = document.createElement("input");
 
-        label.setAttribute("for", id);
-        label.textContent = field;
         input.id = id;
         input.name = id;
 
@@ -50,11 +61,12 @@ class Form {
           default:
             break;
         }
-
-        fieldWrapper.appendChild(label);
-        fieldWrapper.appendChild(input);
+        inputWrapper.appendChild(input);
+        inputWrapper.appendChild(spanError);
       }
 
+      fieldWrapper.appendChild(label);
+      fieldWrapper.appendChild(inputWrapper);
       this.wrapper.appendChild(fieldWrapper);
     });
 
@@ -63,6 +75,9 @@ class Form {
       btn.classList.add("form-btn");
       btn.textContent = b.toUpperCase();
       btn.type = b.toLowerCase();
+
+      if (b === "Submit") btn.addEventListener("click", validateForm);
+
       this.btnWrapper.appendChild(btn);
     });
 
