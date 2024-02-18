@@ -10,7 +10,7 @@ const getId = (f) => {
 class Form {
   constructor() {
     this.wrapper = document.createElement("form");
-    this.wrapper.noValidate = true;
+    this.btnWrapper = document.createElement("div");
     const fields = [
       "Email",
       "Country",
@@ -18,6 +18,9 @@ class Form {
       "Password",
       "Password Confirmation",
     ];
+
+    this.wrapper.noValidate = true;
+    this.btnWrapper.className = "btn-wrapper";
 
     fields.forEach((field) => {
       const fieldWrapper = document.createElement("div");
@@ -54,6 +57,16 @@ class Form {
 
       this.wrapper.appendChild(fieldWrapper);
     });
+
+    ["Submit", "Reset"].forEach((b) => {
+      const btn = document.createElement("button");
+      btn.classList.add("form-btn");
+      btn.textContent = b.toUpperCase();
+      btn.type = b.toLowerCase();
+      this.btnWrapper.appendChild(btn);
+    });
+
+    this.wrapper.appendChild(this.btnWrapper);
   }
 }
 

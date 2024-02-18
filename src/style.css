@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900");
 
+:root {
+  --myBlue: #0096ff;
+}
+
 body {
   height: 100vh;
   display: flex;
@@ -54,5 +58,26 @@ select {
 
 select:focus,
 input:focus {
-  border: 1px solid #0096ff;
+  border: 1px solid var(--myBlue);
+}
+
+.btn-wrapper {
+  display: flex;
+  justify-content: space-around;
+  gap: 1rem;
+}
+
+button {
+  border: none;
+  border-radius: 1rem;
+  padding: 0.5rem 2rem;
+  background: var(--myBlue);
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: white;
+}
+
+button:hover {
+  background: orange;
+  opacity: 1;
 }
